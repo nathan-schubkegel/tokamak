@@ -327,7 +327,8 @@ public:
 		else
 			return GetSupportPointMesh(norm);
 
-		return 0;
+    // unreachable code commented out by nathschu
+		//return 0;
 	}
 	NEINLINE void GetWorldEdgeVerts(s32 edgeIndex, neV3 & av, neV3 & bv)
 	{
@@ -533,7 +534,7 @@ public:
 
 		Face face0 = objA.GetFace(face0Index);
 
-		neByte _indexB = objB.GetSupportPoint(face0.normal);
+		neByte _indexB = (neByte)objB.GetSupportPoint(face0.normal);
 
 		neV3 vertB;
 
@@ -1079,7 +1080,8 @@ bool TestDCD(neCollisionResult & result, TConvex & convexA, neT3 & transA, TConv
 
 	BigCLength = BigC.Length();
 
-	neV3 * aVertArray, * bVertArray;
+	neV3 * aVertArray = 0;
+  neV3 * bVertArray = 0;
 
 	if (convexA.type == TConvex::BOX)
 	{

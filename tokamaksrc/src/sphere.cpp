@@ -48,6 +48,7 @@ void Box2SphereTest(neCollisionResult & result, TConvex & boxA, neT3 & transA, T
 	flag2 = sphereCenterAbs - boxA.as.box.boxSize;
 
 	s32 configuration, dir;
+  dir = 0;
 
 	if (INSIDE_BOX_BOUNDARY(1))
 	{

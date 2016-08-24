@@ -319,7 +319,7 @@ f32 neCollisionResult::SolveAngular(f32 pdepth, const neV3 & axis, f32 relAV, ne
 
 	neBool applyImpulse = false;
 	
-	f32 angularDisplacment;
+	//f32 angularDisplacment; // unreferenced local variable
 
 	if (scaledCorrection > 0.0f)
 	{
@@ -338,6 +338,8 @@ f32 neCollisionResult::SolveAngular(f32 pdepth, const neV3 & axis, f32 relAV, ne
 			//spining out of the limit, but is it fast enough?
 			return 0.0f;
 			
+      // unreachable code commented out by nathschu
+      /*
 			angularDisplacment = relAV * sim->_currentTimeStep;
 
 			f32 d = angularDisplacementNeeded + angularDisplacment;
@@ -348,6 +350,7 @@ f32 neCollisionResult::SolveAngular(f32 pdepth, const neV3 & axis, f32 relAV, ne
 
 				applyImpulse = true;
 			}
+      */
 		}
 	}
 	else
@@ -365,6 +368,9 @@ f32 neCollisionResult::SolveAngular(f32 pdepth, const neV3 & axis, f32 relAV, ne
 		{
 			//spining out of the limit, but is it fast enough?
 			return 0.0f;
+
+      // unreachable code commented out by nathschu
+      /*
 			angularDisplacment = relAV * sim->_currentTimeStep;
 
 			f32 d = angularDisplacementNeeded + angularDisplacment;
@@ -375,6 +381,7 @@ f32 neCollisionResult::SolveAngular(f32 pdepth, const neV3 & axis, f32 relAV, ne
 
 				applyImpulse = true;
 			}
+      */
 		}
 	}
 
@@ -489,7 +496,7 @@ f32 neCollisionResult::SolveAngular3(f32 pdepth, const neV3 & axis, f32 relAV, n
 		ASSERT(0);
 		return 0;
 	}
-*/	f32 deltaAng;
+*/	f32 deltaAng = 0;
 
 	f32 scaledDepth = pdepth * CONSTRAINT_CONVERGE_FACTOR_LIMIT;
 
@@ -692,7 +699,8 @@ f32 neCollisionResult::SolveRelativeLinear(neFixedTimeStepSimulator * sim)
 {
 	f32 velA = 0.0f, velB = 0.0f;
 
-	neRigidBody_ * ba, * bb;
+	neRigidBody_ * ba = 0;
+  neRigidBody_ * bb = 0;
 
 	if (bodyA && (ba = bodyA->AsRigidBody()))
 	{

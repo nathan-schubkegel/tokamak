@@ -157,7 +157,12 @@ public:
 
 class TOKAMAK_API neGeometry;
 
-typedef void (neBreakageCallback)(neByte * originalBody, neBodyType bodyType, neGeometry * brokenGeometry, neRigidBody * newBody);
+typedef void (neBreakageCallbackFunction)(void * userData, neByte * originalBody, neBodyType bodyType, neGeometry * brokenGeometry, neRigidBody * newBody);
+typedef struct
+{
+  void * userData;
+  neBreakageCallbackFunction * function;
+} neBreakageCallback;
 
 class TOKAMAK_API neGeometry
 {
@@ -447,17 +452,19 @@ class TOKAMAK_API neRigidBodyController;
 
 class TOKAMAK_API neJointController;
 
-class neRigidBodyControllerCallback
+typedef void (neRigidBodyControllerCallbackFunction)(void * userData, neRigidBodyController * controller, float timeStep);
+typedef struct
 {
-public:
-	virtual void RigidBodyControllerCallback(neRigidBodyController * controller, float timeStep) = 0;
-};
+  void * userData;
+  neRigidBodyControllerCallbackFunction * function;
+} neRigidBodyControllerCallback;
 
-class neJointControllerCallback
+typedef void (neJointControllerCallbackFunction)(void * userData, neJointController * controller, float timeStep);
+typedef struct
 {
-public:
-	virtual void ConstraintControllerCallback(neJointController * controller, float timeStep) = 0;
-};
+  void * userData;
+  neJointControllerCallbackFunction * function;
+} neJointControllerCallback;
 
 class TOKAMAK_API neRigidBody
 {
@@ -950,17 +957,35 @@ struct neCollisionInfo
 	neV3 collisionNormal;
 };
 
-typedef void (neLogOutputCallback)(char * logString);
+typedef void (neLogOutputCallbackFunction)(void * userData, char * logString);
+typedef struct
+{
+  void * userData;
+  neLogOutputCallbackFunction * function;
+} neLogOutputCallback;
 
-typedef void (neCollisionCallback)(neCollisionInfo & collisionInfo);
+typedef void (neCollisionCallbackFunction)(void * userData, neCollisionInfo * collisionInfo);
+typedef struct
+{
+  void * userData;
+  neCollisionCallbackFunction * function;
+} neCollisionCallback;
 
-typedef void (neTerrainTriangleQueryCallback)(const neV3 & minBound, const neV3 & maxBound, 
-											  s32 ** candidateTriangles,
-												neTriangle ** triangles,
-												neV3 ** vertices,
-												s32 * candidateCount,
-												s32 * triangleCount,
-												neRigidBody * body);
+typedef void (neTerrainTriangleQueryCallbackFunction)(
+  void * userData, 
+  const neV3 * minBound, 
+  const neV3 * maxBound, 
+  s32 ** candidateTriangles,
+  neTriangle ** triangles,
+  neV3 ** vertices,
+  s32 * candidateCount,
+  s32 * triangleCount,
+  neRigidBody * body);
+typedef struct
+{
+  void * userData;
+  neTerrainTriangleQueryCallbackFunction * function;
+} neTerrainTriangleQueryCallback;
 
 typedef struct neCustomCDInfo neCustomCDInfo;
 
@@ -974,9 +999,19 @@ struct neCustomCDInfo
 	s32 materialIdB;
 };
 
-typedef neBool (neCustomCDRB2RBCallback)(neRigidBody * bodyA, neRigidBody * bodyB, neCustomCDInfo & cdInfo);
+typedef neBool (neCustomCDRB2RBCallbackFunction)(void * userData, neRigidBody * bodyA, neRigidBody * bodyB, neCustomCDInfo * cdInfo);
+typedef struct
+{
+  void * userData;
+  neCustomCDRB2RBCallbackFunction * function;
+} neCustomCDRB2RBCallback;
 
-typedef neBool (neCustomCDRB2ABCallback)(neRigidBody * bodyA, neAnimatedBody * bodyB, neCustomCDInfo & cdInfo);
+typedef neBool (neCustomCDRB2ABCallbackFunction)(void * userData, neRigidBody * bodyA, neAnimatedBody * bodyB, neCustomCDInfo * cdInfo);
+typedef struct
+{
+  void * userData;
+  neCustomCDRB2ABCallbackFunction * function;
+} neCustomCDRB2ABCallback;
 
 class TOKAMAK_API neSimulator
 {

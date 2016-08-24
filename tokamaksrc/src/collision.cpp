@@ -154,7 +154,7 @@ void neCollisionResult::UpdateConstraintRelativeSpeed()
 
 	relVel.SetZero();
 
-	s32 solverStage;
+	s32 solverStage = 0;
 
 	if (bodyA)
 	{
@@ -793,7 +793,7 @@ void TConvex::Initialise()
 void TranslateCOM(neM3 & I, neV3 &translate, f32 mass, f32 factor)
 {
 	s32	i,j,k;
-	f32	change;
+	f32	change = 0;
 
 	for(i=0;i<3;i++)
 	{

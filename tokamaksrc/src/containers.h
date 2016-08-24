@@ -14,6 +14,8 @@
 #ifndef CONTAINERS_H
 #define CONTAINERS_H
 
+#include "tokamak.h"
+
 #define _CRT_SECURE_DEPRECATE_MEMORY
 #include <memory.h>
 

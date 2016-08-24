@@ -669,7 +669,7 @@ void neRigidBody_::UpdateController()
 		{
 			ASSERT(con->rbc);
 			
-			con->rbc->RigidBodyControllerCallback((neRigidBodyController*)con, sim->_currentTimeStep);
+			con->rbc->function(con->rbc->userData, (neRigidBodyController*)con, sim->_currentTimeStep);
 
 			con->count = con->period;
 		}

@@ -497,7 +497,7 @@ void _neConstraint::UpdateController()
 		{
 			ASSERT(con->jc);
 			
-			con->jc->ConstraintControllerCallback((neJointController*)con, sim->_currentTimeStep);
+			con->jc->function(con->jc->userData, (neJointController*)con, sim->_currentTimeStep);
 			
 			con->count = con->period;
 		}

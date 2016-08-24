@@ -1,3 +1,6 @@
+#ifndef TOKAMAK_CONSTRAINT_H
+#define TOKAMAK_CONSTRAINT_H
+
 /*************************************************************************
  *                                                                       *
  * Tokamak Physics Engine, Copyright (C) 2002-2007 David Lam.            *
@@ -335,3 +338,4 @@ public:
 	void RemoveAll();
 };
 
+#endif

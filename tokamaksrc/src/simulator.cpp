@@ -125,7 +125,7 @@ neFixedTimeStepSimulator::neFixedTimeStepSimulator(const neSimulatorSizeInfo & _
 
 	fakeCollisionBody.sim = this;
 
-	fakeCollisionBody.id = -1;
+	fakeCollisionBody.id = 0xFFFFFFFF; // -1;
 
 	fakeCollisionBody.cookies = 0;
 
@@ -278,7 +278,7 @@ void neFixedTimeStepSimulator::LogOutput(neSimulator::LOG_OUTPUT_LEVEL lvl)
 		return;
 
 	if (lvl <= logLevel)
-		logCallback(logBuffer);
+		logCallback->function(logCallback->userData, logBuffer);
 }
 
 /****************************************************************************
@@ -1127,7 +1127,7 @@ void neFixedTimeStepSimulator::CheckCollision()
 
 						memset(&cdInfo, 0, sizeof(cdInfo));
 
-						if (customCDRB2ABCallback((neRigidBody*)rb, (neAnimatedBody*)ca, cdInfo))
+						if (customCDRB2ABCallback->function(customCDRB2ABCallback->userData, (neRigidBody*)rb, (neAnimatedBody*)ca, &cdInfo))
 						{
 							result.penetrate = true;
 							result.bodyA = ca;
@@ -1183,7 +1183,7 @@ void neFixedTimeStepSimulator::CheckCollision()
 
 							memset(&cdInfo, 0, sizeof(cdInfo));
 
-							if (customCDRB2ABCallback((neRigidBody*)ra, (neAnimatedBody*)cb, cdInfo))
+							if (customCDRB2ABCallback->function(customCDRB2ABCallback->userData, (neRigidBody*)ra, (neAnimatedBody*)cb, &cdInfo))
 							{
 								result.penetrate = true;
 								result.bodyA = ra;
@@ -1258,7 +1258,7 @@ void neFixedTimeStepSimulator::CheckCollision()
 
 							memset(&cdInfo, 0, sizeof(cdInfo));
 
-							if (customCDRB2RBCallback((neRigidBody*)ra, (neRigidBody*)rb, cdInfo))
+							if (customCDRB2RBCallback->function(customCDRB2RBCallback->userData, (neRigidBody*)ra, (neRigidBody*)rb, &cdInfo))
 							{
 								result.penetrate = true;
 								result.bodyA = ra;
@@ -1353,7 +1353,7 @@ void neFixedTimeStepSimulator::CheckCollision()
 				cinfo.relativeVelocity = result.initRelVelWorld;
 				cinfo.collisionNormal = result.collisionFrame[2];
 
-				collisionCallback(cinfo);
+				collisionCallback->function(collisionCallback->userData, &cinfo);
 			}
 		}
 	}
@@ -1477,7 +1477,7 @@ if (perfReport)
 				static neSimpleArray<s32> _candArray;
 				static neArray<neTriangle_> _triArray;
 				
-				terrainQueryCallback(bodyA->minBound, bodyA->maxBound, &candidates, &tris, &verts, &candidateCount, &triCount, (neRigidBody*)bodyA);
+				terrainQueryCallback->function(terrainQueryCallback->userData, &(bodyA->minBound), &(bodyA->maxBound), &candidates, &tris, &verts, &candidateCount, &triCount, (neRigidBody*)bodyA);
 
 #ifdef _WIN32
 if (perfReport)
@@ -1540,7 +1540,7 @@ if (perfReport)
 					cinfo.relativeVelocity = result.initRelVelWorld;
 					cinfo.collisionNormal = result.collisionFrame[2];
 
-					collisionCallback(cinfo);
+					collisionCallback->function(collisionCallback->userData, &cinfo);
 				}
 			}
 
@@ -1966,7 +1966,7 @@ neBool neFixedTimeStepSimulator::CheckBreakage(neRigidBodyBase * originalBody, T
 	}
 	if (newBody)
 	{
-		breakageCallback((neByte *)originalBody, originalBodyType, (neGeometry *)convex, (neRigidBody*)newBody);
+		breakageCallback->function(breakageCallback->userData, (neByte *)originalBody, originalBodyType, (neGeometry *)convex, (neRigidBody*)newBody);
 	
 		return true;
 	}
